@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parallax Layout</title>
+    <style>
+      @font-face {
+        font-family: 'EstablishRetrosans';
+        font-weight: normal;
+        font-style: normal;
+        src: url('https://cdn.jsdelivr.net/gh/webfontworld/ssro/EstablishRetrosans.eot');
+        src: url('https://cdn.jsdelivr.net/gh/webfontworld/ssro/EstablishRetrosans.eot?#iefix')
+            format('embedded-opentype'),
+          url('https://cdn.jsdelivr.net/gh/webfontworld/ssro/EstablishRetrosans.woff2')
+            format('woff2'),
+          url('https://cdn.jsdelivr.net/gh/webfontworld/ssro/EstablishRetrosans.woff')
+            format('woff'),
+          url('https://cdn.jsdelivr.net/gh/webfontworld/ssro/EstablishRetrosans.ttf')
+            format('truetype');
+        font-display: swap;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* mouse */
+      .mouse {
+        background: #222;
+        color: #fff;
+        font-weight: 400;
+      }
+      .bg {
+        position: relative;
+        height: 100vh;
+        background-image: url(https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80);
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+      .bg::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+      }
+
+      /* mouseCont */
+      .mouseCont {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: #fff;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        font-family: 'EstablishRetrosans';
+        cursor: none;
+      }
+      .mouseCont p {
+        font-size: 3vw;
+        line-height: 2;
+        font-weight: 300;
+        margin: 1vw;
+      }
+      .mouseCont p:last-child {
+        font-size: 3.5vw;
+        font-weight: normal;
+        font-weight: 400;
+      }
+      .mouseCont em {
+        font-size: 3.8vw;
+        font-weight: normal;
+        font-style: normal;
+        border-bottom: 0.2vw dashed rgb(255, 37, 37);
+        color: rgb(255, 37, 37);
+      }
+      .cursor {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        z-index: 9999;
+        background-color: #fff;
+        user-select: none;
+        pointer-events: none;
+        transition: transform 0.3s;
+        mix-blend-mode: difference;
+      }
+      .cursor.active {
+        transform: scale(10);
+      }
+      .cursor.show {
+        transform: scale(10);
+        background: red;
+      }
+    </style>
+  </head>
+  <body class="mouse bg">
+    <!-- main -->
+    <main>
+      <div class="cursor"></div>
+
+      <article class="mouseCont">
+        <p>Never <em>underestimate</em> your own ignorance.</p>
+        <p>네 자신의 무지를 절대 <em>과소평가</em> 하지 마라.</p>
+      </article>
+    </main>
+    <!-- //main -->
+
+    <!-- script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script>
+      const width = $('.cursor').width() / 2;
+      const height = $('.cursor').height() / 2;
+      // 움직임 효과
+      $(window).mousemove(function (e) {
+        gsap.to('.cursor', {
+          duration: 0.2,
+          left: e.pageX,
+          top: e.pageY,
+        });
+      });
+
+      // 오버 효과
+      $('.mouseCont em').hover(
+        function () {
+          $('.cursor').addClass('active');
+        },
+        function () {
+          $('.cursor').removeClass('active');
+        }
+      );
+    </script>
+  </body>
+</html>
